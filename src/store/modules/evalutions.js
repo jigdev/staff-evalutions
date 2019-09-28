@@ -52,6 +52,15 @@ const actions = {
       commit("setLoading", { loading: false });
     });
   },
+  // Get single Evaltion to load questions into form
+  getSignleEvalution ({ commit }) {
+    commit("setLoading", { loading: true });
+    api.getData("evalutions?_embed=evalutions").then(res => {
+      const evalutions = res.data[0];
+      commitPagination(commit, evalutions);
+      commit("setLoading", { loading: false });
+    });
+  },
   searchEvalutions ({ commit }, searchQuery, pagination) {
     api.getData("evalutions?_embed=evalutions&" + searchQuery).then(res => {
       const evalutions = res.data;
