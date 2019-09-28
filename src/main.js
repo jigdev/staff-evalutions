@@ -1,28 +1,46 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
 import Vuetify from 'vuetify'
-import router from './router.js'
-import store from './store'
-import 'vuetify/dist/vuetify.min.css'
+import App from './App'
+import router from '@/router'
+import store from '@/store'
+import api from './utils/backend-api'
+import appUtil from './utils/app-util'
 
-Vue.use(Vuetify, {
-    theme: {
-        primary: '#3f51b5',
-        secondary: '#b0bec5',
-        accent: '#8c9eff',
-        error: '#b71c1c'
-    }
-})
+import VueProgressBar from 'vue-progressbar'
 
+const ENV = "DEMO"
+
+const options = {
+  color: '#2196f3',
+  failedColor: '#874b4b',
+  thickness: '5px',
+  transition: {
+    speed: '0.1s',
+    opacity: '0.5s',
+    termination: 400
+  },
+  autoRevert: true,
+  location: 'top',
+  inverse: false
+}
+
+Vue.use(VueProgressBar, options)
+
+Vue.use(Vuetify)
 Vue.config.productionTip = false
 
+window.Store = store
+Vue.prototype.api = api
+Vue.prototype.appUtil = appUtil
+
 /* eslint-disable no-new */
-window.vue = new Vue({
-    el: '#app',
-    router,
-    store,
-    template: '<App/>',
-    components: {App}
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+  // template: '<App/>',
+  // components: { App }
 })
