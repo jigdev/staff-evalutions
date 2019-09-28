@@ -102,6 +102,12 @@
             title: "Dashboard",
             vertical: "Dashboard",
             link: "dashboard"
+          },
+           {
+            icon: "perm_identity",
+            title: "Evalutions",
+            vertical: "Evalutions",
+            link: "evalutions"
           }
           /* {
             icon: "shopping_cart",

@@ -47,6 +47,7 @@ const actions = {
   getAllEvalutions ({ commit }) {
     commit("setLoading", { loading: true });
     api.getData("evalutions?_embed=evalutions").then(res => {
+      debugger;
       const evalutions = res.data;
       commitPagination(commit, evalutions);
       commit("setLoading", { loading: false });

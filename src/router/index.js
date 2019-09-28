@@ -10,6 +10,7 @@ import CustomerList from '@/pages/CustomerList'
 import CustomerForm from '@/pages/CustomerForm'
 import Products from '@/pages/ProductList'
 import ProductForm from '@/pages/ProductForm'
+import SelfEvalutions from '@/pages/SelfEvalutions'
 
 import Login from '@/components/Login'
 import ChangePassword from '@/components/ChangePassword'
@@ -48,6 +49,7 @@ export default new Router({
     { path: '/product/:id', component: ProductForm, name: 'Product', beforeEnter: requireAuth },
     { path: '/products', component: Products, name: 'Products', beforeEnter: requireAuth },
     { path: '/newproduct', component: ProductForm, name: 'NewProduct', beforeEnter: requireAuth },
+    { path: '/evalutions', component: SelfEvalutions, name: 'Evalutions', beforeEnter: requireAuth },
     { path: '/login', component: Login, name: 'Login' },
     { path: '/changePassword', component: ChangePassword, name: 'ChangePassword' },
     { path: '/logout',

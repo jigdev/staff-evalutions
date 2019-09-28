@@ -82,35 +82,28 @@ export default {
   data () {
     return {
       dialog: false,
-      dialogTitle: "Customer Delete Dialog",
-      dialogText: "Do you want to delete this customer?",
+      dialogTitle: "Evalution Delete Dialog",
+      dialogText: "Do you want to delete this evalution?",
       rightDrawer: false,
       right: true,
       search: '',
       headers: [
         {
-          text: 'First Name',
+          text: 'Period',
           left: true,
-          value: 'firstName'
-        },
-        { text: 'Last Name', value: 'lastName' },
-        { text: 'Email', value: 'email' },
-        { text: 'Mobile', value: 'mobile' },
-        { text: 'Reward', value: 'rewards' },
-        { text: 'Previous Order(s)', value: 'orderAmount' },
-        { text: 'Membership', value: 'membership' },
+          value: 'period'
+        }
       ],
       // items: [],
       searchVm: {
         contains: {
-          firstName: '',
-          lastName: ''
+          period: ''
         },
         between: {
           rewards: { former: 0, latter: 0 }
         }
       },
-      customerId: "",
+      evalutionId: "",
       query: "",
       snackbarStatus: false,
       timeout: 2000,
@@ -134,9 +127,9 @@ export default {
     },
     onConfirm () {
       Store.dispatch(
-        "customers/deleteCustomer", this.orderId).then(() => {
-        Store.dispatch("customers/searchCustomers", this.query, this.pagination);
-        Store.dispatch("customers/closeSnackBar", 2000);
+        "evalutions/deleteEvalution", this.orderId).then(() => {
+        Store.dispatch("evalutions/searchEvalutions", this.query, this.pagination);
+        Store.dispatch("evalutions/closeSnackBar", 2000);
       });
       this.dialog = false;
     },
@@ -144,17 +137,17 @@ export default {
       this.orderId = "";
       this.dialog = false;
     },
-    searchCustomers () {
+    searchEvalutions () {
       this.rightDrawer = !this.rightDrawer;
       this.appUtil.buildSearchFilters(this.searchVm);
       this.query = this.appUtil.buildJsonServerQuery(this.searchVm);
       this.quickSearch = "";
-      Store.dispatch("customers/searchCustomers", this.query, this.pagination);
+      Store.dispatch("evalutions/searchEvalutions", this.query, this.pagination);
     },
     clearSearchFilters () {
       this.rightDrawer = !this.rightDrawer
       this.appUtil.clearSearchFilters(this.searchVm)
-      this.api.getData('customers/').then((res) => {
+      this.api.getData('evalutions/').then((res) => {
         this.items = res.data
         this.items.forEach((item) => {
           if (item.orders && item.orders.length) {
@@ -171,25 +164,25 @@ export default {
     },
     reloadData () {
       this.query = "";
-      Store.dispatch("customers/getAllCustomers");
+      Store.dispatch("evalutions/getAllEvalutions");
     },
     cancelSearch () {
       this.rightDrawer = false;
     },
     closeSnackbar () {
-      Store.commit("customers/setSnackbar", { snackbar: false });
-      Store.commit("customers/setNotice", { notice: "" });
+      Store.commit("evalutions/setSnackbar", { snackbar: false });
+      Store.commit("evalutions/setNotice", { notice: "" });
     },
-    quickSearchCustomers: debounce(function () {
+    quickSearchEvalutions: debounce(function () {
       console.log(this.quickSearchFilter)
-      this.quickSearchFilter && Store.dispatch("customers/quickSearch",
+      this.quickSearchFilter && Store.dispatch("evalutions/quickSearch",
        { headers: this.headers,
          qsFilter: this.quickSearchFilter.toLowerCase(),
          pagination: this.pagination });
     }, 300),
   },
   computed: {
-    ...mapState("customers", {
+    ...mapState("evalutions", {
       items: "items",
       pagination: "pagination",
       loading: "loading",
@@ -203,12 +196,12 @@ export default {
       },
       set: function ( val ) {
         this.quickSearchFilter = val;
-        this.quickSearchFilter && this.quickSearchCustomers();
+        this.quickSearchFilter && this.quickSearchEvalutions();
       }
     }
   },
   created () {
-    Store.dispatch("customers/getAllCustomers")
+    Store.dispatch("evalutions/getAllEvalutions")
   },
   mounted () {
     // this.getCustomers()
