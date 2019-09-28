@@ -8,6 +8,7 @@ import OrderForm from '@/pages/OrderForm'
 import About from '@/pages/About'
 import CustomerList from '@/pages/CustomerList'
 import CustomerForm from '@/pages/CustomerForm'
+import EvalutionForm from '@/pages/EvalutionForm'
 import Products from '@/pages/ProductList'
 import ProductForm from '@/pages/ProductForm'
 import SelfEvalutions from '@/pages/SelfEvalutions'
@@ -44,6 +45,8 @@ export default new Router({
     { path: '/neworder', component: OrderForm, name: 'NewOrder', beforeEnter: requireAuth },
     { path: '/order/:id', component: OrderForm, name: 'Order', beforeEnter: requireAuth },
     { path: '/customers', component: CustomerList, name: 'Customers', beforeEnter: requireAuth },
+    { path: '/newEvalution', component: EvalutionForm, name: 'NewEvalution', beforeEnter: requireAuth },
+    { path: '/evalution/:id', component: EvalutionForm, name: 'Evalution', beforeEnter: requireAuth },
     { path: '/newcustomer', component: CustomerForm, name: 'NewCustomer', beforeEnter: requireAuth },
     { path: '/customer/:id', component: CustomerForm, name: 'Customer', beforeEnter: requireAuth },
     { path: '/product/:id', component: ProductForm, name: 'Product', beforeEnter: requireAuth },

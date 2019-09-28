@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
              <v-card-title>
-            <span class="title">Customers {{pagination? "("+pagination.totalItems+")": ""}}
+            <span class="title">Evalutions {{pagination? "("+pagination.totalItems+")": ""}}
               <v-text-field append-icon="search" label="Quick Search" single-line hide-details v-model="quickSearch"></v-text-field>
             </span>
             <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
 
       </v-card>
     </v-flex>
- <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchCustomers">
+ <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchEvalutions">
  <v-layout row>
           <v-flex xs11 offset-xs1>
             <v-text-field name="input-1-3" label="Frist Name" light v-model="searchVm.contains.firstName"></v-text-field>
@@ -116,10 +116,11 @@ export default {
       window.print()
     },
     edit (item) {
-      this.$router.push({ name: 'Customer', params: { id: item.id } })
+      debugger;
+      this.$router.push({ name: 'Evalution', params: { id: item.id } })
     },
     add () {
-      this.$router.push('NewCustomer')
+      this.$router.push('NewEvalution')
     },
     remove (item) {
       this.orderId = item.id;
@@ -142,6 +143,7 @@ export default {
       this.appUtil.buildSearchFilters(this.searchVm);
       this.query = this.appUtil.buildJsonServerQuery(this.searchVm);
       this.quickSearch = "";
+      debugger;
       Store.dispatch("evalutions/searchEvalutions", this.query, this.pagination);
     },
     clearSearchFilters () {

@@ -31,7 +31,9 @@ const actions = {
     if (id) {
       api.getData("evalutions/" + id).then(
         res => {
+
           const evalution = res.data;
+          console.log('Evalutions data ' + evalution);
           commit("setEvalution", { evalution });
           commit("setLoading", { loading: false });
         },
@@ -84,9 +86,7 @@ const actions = {
           );
         })
       );
-      evalutions.forEach(item => {
-        item.orderAmount = item.orders.length;
-      });
+
       commitPagination(commit, evalutions);
     });
   },
