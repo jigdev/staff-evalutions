@@ -13,6 +13,9 @@ import Products from '@/pages/ProductList'
 import ProductForm from '@/pages/ProductForm'
 import SelfEvalutions from '@/pages/SelfEvalutions'
 
+import Departments from '@/pages/Departments'
+import DepartmentForm from '@/pages/DepartmentForm'
+
 import Login from '@/components/Login'
 import ChangePassword from '@/components/ChangePassword'
 
@@ -45,14 +48,17 @@ export default new Router({
     { path: '/neworder', component: OrderForm, name: 'NewOrder', beforeEnter: requireAuth },
     { path: '/order/:id', component: OrderForm, name: 'Order', beforeEnter: requireAuth },
     { path: '/customers', component: CustomerList, name: 'Customers', beforeEnter: requireAuth },
-    { path: '/newEvalution', component: EvalutionForm, name: 'NewEvalution', beforeEnter: requireAuth },
-    { path: '/evalution/:id', component: EvalutionForm, name: 'Evalution', beforeEnter: requireAuth },
     { path: '/newcustomer', component: CustomerForm, name: 'NewCustomer', beforeEnter: requireAuth },
     { path: '/customer/:id', component: CustomerForm, name: 'Customer', beforeEnter: requireAuth },
     { path: '/product/:id', component: ProductForm, name: 'Product', beforeEnter: requireAuth },
     { path: '/products', component: Products, name: 'Products', beforeEnter: requireAuth },
     { path: '/newproduct', component: ProductForm, name: 'NewProduct', beforeEnter: requireAuth },
     { path: '/evalutions', component: SelfEvalutions, name: 'Evalutions', beforeEnter: requireAuth },
+    { path: '/newEvalution', component: EvalutionForm, name: 'NewEvalution', beforeEnter: requireAuth },
+    { path: '/evalution/:id', component: EvalutionForm, name: 'Evalution', beforeEnter: requireAuth },
+    { path: '/departments', component: Departments, name: 'Departments', beforeEnter: requireAuth },
+    { path: '/newDepartment', component: DepartmentForm, name: 'NewDepartment', beforeEnter: requireAuth },
+    { path: '/department/:id', component: DepartmentForm, name: 'Department', beforeEnter: requireAuth },
     { path: '/login', component: Login, name: 'Login' },
     { path: '/changePassword', component: ChangePassword, name: 'ChangePassword' },
     { path: '/logout',

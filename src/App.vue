@@ -108,6 +108,12 @@
             title: "Evalutions",
             vertical: "Evalutions",
             link: "evalutions"
+          },
+          {
+            icon: "perm_identity",
+            title: "Departments",
+            vertical: "Departments",
+            link: "departments"
           }
           /* {
             icon: "shopping_cart",

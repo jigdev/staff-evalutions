@@ -1,5 +1,5 @@
 import api from "@/utils/demo-api";
-import { Evalution } from "@/models";
+import { Department } from "@/models";
 import {
   sendSuccessNotice,
   sendErrorNotice,
@@ -17,24 +17,23 @@ const state = {
   mode: "",
   snackbar: false,
   notice: "",
-  evalution: new Evalution(),
+  department: new Department(),
   evalutions: [],
-  evalutionList: [],
+  departmentList: [],
 };
 
 const getters = {};
 
 const actions = {
 
-  getEvalutionById ({ commit }, id) {
+  getDepartmentById ({ commit }, id) {
     commit("setLoading", { loading: true });
     if (id) {
-      api.getData("evalutions/" + id).then(
+      api.getData("departments/" + id).then(
         res => {
-
-          const evalution = res.data;
-          console.log('Evalutions data ' + evalution);
-          commit("setEvalution", { evalution });
+          const department = res.data;
+          console.log('Department By ID ' + res.data);
+          commit("setDepartment", { department });
           commit("setLoading", { loading: false });
         },
         err => {
@@ -42,37 +41,37 @@ const actions = {
         }
       );
     } else {
-      commit("setEvalution", { evalution: new Evalution() });
+      commit("setDepartment", { department: new Department() });
       commit("setLoading", { loading: false });
     }
   },
-  getAllEvalutions ({ commit }) {
+  getAllDepartments ({ commit }) {
     commit("setLoading", { loading: true });
-    api.getData("evalutions?_embed=evalutions").then(res => {
-      const evalutions = res.data;
-      commitPagination(commit, evalutions);
+    api.getData("departments?_embed=departments").then(res => {
+      const departments = res.data;
+      commitPagination(commit, departments);
       commit("setLoading", { loading: false });
     });
   },
   // Get single Evaltion to load questions into form
-  getSignleEvalution ({ commit }) {
+  getSignleDepartment ({ commit }) {
     commit("setLoading", { loading: true });
-    api.getData("evalutions?_embed=evalutions").then(res => {
-      const evalutions = res.data[0];
-      commitPagination(commit, evalutions);
+    api.getData("departments?_embed=departments").then(res => {
+      const departments = res.data[0];
+      commitPagination(commit, departments);
       commit("setLoading", { loading: false });
     });
   },
-  searchEvalutions ({ commit }, searchQuery, pagination) {
-    api.getData("evalutions?_embed=evalutions&" + searchQuery).then(res => {
-      const evalutions = res.data;
-      commitPagination(commit, evalutions);
+  searchDepartments ({ commit }, searchQuery, pagination) {
+    api.getData("departments?_embed=departments&" + searchQuery).then(res => {
+      const departments = res.data;
+      commitPagination(commit, departments);
     });
   },
   quickSearch ({ commit }, { headers, qsFilter, pagination }) {
     // TODO: Following solution should be replaced by DB full-text search for production
-    api.getData("evalutions?_embed=evalutions").then(res => {
-      const evalutions = res.data.filter(r =>
+    api.getData("departments?_embed=departments").then(res => {
+      const departments = res.data.filter(r =>
         headers.some(header => {
           const val = get(r, [header.value]);
           return (
@@ -86,12 +85,12 @@ const actions = {
         })
       );
 
-      commitPagination(commit, evalutions);
+      commitPagination(commit, departments);
     });
   },
-  deleteEvalution ({ commit, dispatch }, id, query, pagination) {
+  deleteDepartment({ commit, dispatch }, id, query, pagination) {
     api
-      .deleteData("evalutions/" + id.toString())
+      .deleteData("departments/" + id.toString())
       .then(res => {
         return new Promise((resolve, reject) => {
           sendSuccessNotice(commit, "Operation is done.");
@@ -104,14 +103,15 @@ const actions = {
         closeNotice(commit, 1500);
       });
   },
-  saveEvalution ({ commit, dispatch }, evalution) {
-    if (!evalution.id) {
+  saveDepartment ({ commit, dispatch }, department) {
+    if (!department.id) {
       api
-        .postData("evalutions/", evalution)
+        .postData("departments/", department)
         .then(res => {
-          const evalution = res.data;
-          commit("setEvalution", { evalution });
-          sendSuccessNotice(commit, "New evalution has been added.");
+          const departments = res.data;
+          console.log("Check department >> " + departments);
+          commit("setDepartments", { departments });
+          sendSuccessNotice(commit, "New department has been added.");
         })
         .catch(err => {
           console.log(err);
@@ -120,11 +120,11 @@ const actions = {
         });
     } else {
       api
-        .putData("evalution/" + evalution.id.toString(), evalution)
+        .putData("department/" + department.id.toString(), department)
         .then(res => {
-          const evalution = res.data;
-          commit("setEvalution", { evalution });
-          sendSuccessNotice(commit, "Customer has been updated.");
+          const department = res.data;
+          commit("setDepartment", { department });
+          sendSuccessNotice(commit, "Department has been updated.");
         })
         .catch(err => {
           console.log(err);
@@ -139,11 +139,11 @@ const actions = {
 };
 
 const mutations = {
-  setEvalutionList (state, evalution) {
-    state.evalution = evalution;
+  setDepartmentList(state, department) {
+    state.department = department;
   },
-  setItems (state, evalutions) {
-    state.items = evalutions;
+  setItems (state, departments) {
+    state.items = departments;
   },
   setPagination (state, pagination) {
     state.pagination = pagination;
@@ -161,8 +161,8 @@ const mutations = {
   setMode (state, { mode }) {
     state.mode = mode;
   },
-  setEvalution (state, { evalution }) {
-    state.evalution = evalution;
+  setDepartment (state, { department }) {
+    state.department = department;
   },
 };
 

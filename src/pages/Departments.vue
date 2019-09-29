@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
              <v-card-title>
-            <span class="title">Evalutions {{pagination? "("+pagination.totalItems+")": ""}}
+            <span class="title">Departments {{pagination? "("+pagination.totalItems+")": ""}}
               <v-text-field append-icon="search" label="Quick Search" single-line hide-details v-model="quickSearch"></v-text-field>
             </span>
             <v-spacer></v-spacer>
@@ -21,39 +21,12 @@
             </v-btn>
           </v-card-title>
         <Table v-if="loading===false" :headers="headers" :items="items"  :pagination="pagination" @edit="edit" @remove="remove"></Table>
-
       </v-card>
     </v-flex>
- <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchEvalutions">
+ <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchDepartments">
  <v-layout row>
           <v-flex xs11 offset-xs1>
-            <v-text-field name="input-1-3" label="Frist Name" light v-model="searchVm.contains.firstName"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs11 offset-xs1>
-            <v-text-field name="input-1-3" label="Last Name" light v-model="searchVm.contains.lastName"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs11 offset-xs1>
-            <v-subheader class="text-sm-central" light>Reward range between Reward 1 and Reward 2 </v-subheader>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs8 offset-xs1>
-            <v-slider label="Reward 1" light v-bind:max="50" v-model="searchVm.between.rewards.former"></v-slider>
-          </v-flex>
-          <v-flex xs3>
-            <v-text-field type="number" light v-model="searchVm.between.rewards.former"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs8 offset-xs1>
-            <v-slider label="Reward 2" light v-bind:max="100" v-model="searchVm.between.rewards.latter"></v-slider>
-          </v-flex>
-          <v-flex xs3>
-            <v-text-field type="number" light v-model="searchVm.between.rewards.latter"></v-text-field>
+            <v-text-field name="input-1-3" label="Department Name" light v-model="searchVm.contains.name"></v-text-field>
           </v-flex>
         </v-layout>
          </search-panel>
@@ -82,16 +55,21 @@ export default {
   data () {
     return {
       dialog: false,
-      dialogTitle: "Evalution Delete Dialog",
-      dialogText: "Do you want to delete this evalution?",
+      dialogTitle: "Department delete Dialog",
+      dialogText: "Do you want to delete this Department?",
       rightDrawer: false,
       right: true,
       search: '',
       headers: [
         {
-          text: 'Period',
+          text: 'Department Name',
           left: true,
-          value: 'period'
+          value: 'name'
+        },
+         {
+          text: 'Created Date',
+          left: true,
+          value: 'created_date'
         }
       ],
       // items: [],
@@ -103,7 +81,7 @@ export default {
           rewards: { former: 0, latter: 0 }
         }
       },
-      evalutionId: "",
+      departmentId: "",
       query: "",
       snackbarStatus: false,
       timeout: 2000,
@@ -116,20 +94,20 @@ export default {
       window.print()
     },
     edit (item) {
-      this.$router.push({ name: 'Evalution', params: { id: item.id } })
+      this.$router.push({ name: 'Department', params: { id: item.id } })
     },
     add () {
-      this.$router.push('NewEvalution')
+      this.$router.push('NewDepartment')
     },
     remove (item) {
-      this.orderId = item.id;
+      this.departmentId = item.id;
       this.dialog = true;
     },
     onConfirm () {
       Store.dispatch(
-        "evalutions/deleteEvalution", this.orderId).then(() => {
-        Store.dispatch("evalutions/searchEvalutions", this.query, this.pagination);
-        Store.dispatch("evalutions/closeSnackBar", 2000);
+        "departments/deleteDepartment", this.departmentId).then(() => {
+        Store.dispatch("departments/searchDepartments", this.query, this.pagination);
+        Store.dispatch("departments/closeSnackBar", 2000);
       });
       this.dialog = false;
     },
@@ -137,17 +115,17 @@ export default {
       this.orderId = "";
       this.dialog = false;
     },
-    searchEvalutions () {
+    searchDepartments () {
       this.rightDrawer = !this.rightDrawer;
       this.appUtil.buildSearchFilters(this.searchVm);
       this.query = this.appUtil.buildJsonServerQuery(this.searchVm);
       this.quickSearch = "";
-      Store.dispatch("evalutions/searchEvalutions", this.query, this.pagination);
+      Store.dispatch("departments/searchDepartments", this.query, this.pagination);
     },
     clearSearchFilters () {
       this.rightDrawer = !this.rightDrawer
       this.appUtil.clearSearchFilters(this.searchVm)
-      this.api.getData('evalutions/').then((res) => {
+      this.api.getData('departments/').then((res) => {
         this.items = res.data
         this.items.forEach((item) => {
           if (item.orders && item.orders.length) {
@@ -164,25 +142,25 @@ export default {
     },
     reloadData () {
       this.query = "";
-      Store.dispatch("evalutions/getAllEvalutions");
+      Store.dispatch("departments/getAllDepartments");
     },
     cancelSearch () {
       this.rightDrawer = false;
     },
     closeSnackbar () {
-      Store.commit("evalutions/setSnackbar", { snackbar: false });
-      Store.commit("evalutions/setNotice", { notice: "" });
+      Store.commit("departments/setSnackbar", { snackbar: false });
+      Store.commit("departments/setNotice", { notice: "" });
     },
-    quickSearchEvalutions: debounce(function () {
+    quickSearchDepartments: debounce(function () {
       console.log(this.quickSearchFilter)
-      this.quickSearchFilter && Store.dispatch("evalutions/quickSearch",
+      this.quickSearchFilter && Store.dispatch("Departments/quickSearch",
        { headers: this.headers,
          qsFilter: this.quickSearchFilter.toLowerCase(),
          pagination: this.pagination });
     }, 300),
   },
   computed: {
-    ...mapState("evalutions", {
+    ...mapState("departments", {
       items: "items",
       pagination: "pagination",
       loading: "loading",
@@ -196,15 +174,15 @@ export default {
       },
       set: function ( val ) {
         this.quickSearchFilter = val;
-        this.quickSearchFilter && this.quickSearchEvalutions();
+        this.quickSearchFilter && this.quickSearchDepartments();
       }
     }
   },
   created () {
-    Store.dispatch("evalutions/getAllEvalutions")
+    Store.dispatch("departments/getAllDepartments")
   },
   mounted () {
-    // this.getCustomers()
+
   }
 }
 </script>
