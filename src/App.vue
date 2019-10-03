@@ -114,6 +114,12 @@
             title: "Departments",
             vertical: "Departments",
             link: "departments"
+          },
+          {
+            icon: "perm_identity",
+            title: "Users",
+            vertical: "Users",
+            link: "users"
           }
           /* {
             icon: "shopping_cart",

@@ -128,6 +128,24 @@
   "name": "Sales",
   "created_date": "10/23/2018",
   "updated_date": "10/24/2018"
-}] }
+}] ,"users" : [{
+  "id":  "1",
+  "email": "thakkar.kashyap2120@gmail.com",
+  "first_name": "Kashyap",
+  "last_name": "Thakkar",
+  "mobile_no": "9898502512"
+}, {
+  "id":  "2",
+  "email": "jigkru@gmail.com",
+  "first_name": "Jigar",
+  "last_name": "Patel",
+  "mobile_no": "7083140405"
+}, {
+  "id":  "3",
+  "email": "dikshit@gmail.com",
+  "first_name": "Dikshit",
+  "last_name": "Thakkar",
+  "mobile_no": "8866003611"
+}]}
 
 

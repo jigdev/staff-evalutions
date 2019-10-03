@@ -8,6 +8,7 @@ import orders from "./modules/orders";
 import customers from "./modules/customers";
 import evalutions from "./modules/evalutions";
 import departments from "./modules/departments";
+import users from "./modules/users";
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     orders,
     evalutions,
     customers,
-    departments
+    departments,
+    users
   }
 })

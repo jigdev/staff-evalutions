@@ -16,6 +16,8 @@ import SelfEvalutions from '@/pages/SelfEvalutions'
 import Departments from '@/pages/Departments'
 import DepartmentForm from '@/pages/DepartmentForm'
 
+import Users from '@/pages/Users'
+
 import Login from '@/components/Login'
 import ChangePassword from '@/components/ChangePassword'
 
@@ -59,6 +61,7 @@ export default new Router({
     { path: '/departments', component: Departments, name: 'Departments', beforeEnter: requireAuth },
     { path: '/newDepartment', component: DepartmentForm, name: 'NewDepartment', beforeEnter: requireAuth },
     { path: '/department/:id', component: DepartmentForm, name: 'Department', beforeEnter: requireAuth },
+    { path: '/users', component: Users, name: 'Users', beforeEnter: requireAuth },
     { path: '/login', component: Login, name: 'Login' },
     { path: '/changePassword', component: ChangePassword, name: 'ChangePassword' },
     { path: '/logout',
