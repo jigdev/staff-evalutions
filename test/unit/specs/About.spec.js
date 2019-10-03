@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import About from '@/components/About'
+import About from '@/basecomponents/About'
 
 describe('About.vue', () => {
   it('should render correct contents', () => {

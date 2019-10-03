@@ -9,13 +9,13 @@
             <v-spacer></v-spacer>
             <v-btn class="blue-grey" fab small dark @click.native.stop="rightDrawer = !rightDrawer">
               <v-icon>search</v-icon>
-            </v-btn>            
+            </v-btn>
             <v-btn class="brown lighten-1" fab small dark @click.native="reloadData()">
               <v-icon>refresh</v-icon>
-            </v-btn>            
+            </v-btn>
             <v-btn class="teal darken-2" fab small dark @click.native="print()">
               <v-icon>print</v-icon>
-            </v-btn>            
+            </v-btn>
             <v-btn class="deep-orange darken-3" fab small dark @click.native="add">
               <v-icon>add</v-icon>
             </v-btn>
@@ -65,9 +65,9 @@
 </template>
 <script>
 /* globals Store */
-import Table from "@/components/Table.vue";
-import SearchPanel from "@/components/SearchPanel.vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import Table from "@/basecomponents/Table.vue";
+import SearchPanel from "@/basecomponents/SearchPanel.vue";
+import ConfirmDialog from "@/basecomponents/ConfirmDialog.vue";
 import { mapState } from "vuex";
 import { debounce } from "lodash";
 

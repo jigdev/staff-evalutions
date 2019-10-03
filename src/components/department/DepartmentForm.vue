@@ -20,7 +20,7 @@
                 <v-container fluid grid-list-sm>
                   <v-layout row wrap>
                     <v-flex md4 sm12 xs12  class="mx-1 px-0">
-                      <v-text-field name="departmentName" label="Department Name" hint="Department name is required" value="Input text" v-model="department.name"
+                      <v-text-field name="departmentName" label="Department Name" hint="Department name is required" value="Input text" v-model="departmentprop.name"
                         class="input-group--focused" required></v-text-field>
                     </v-flex>
                   </v-layout>
@@ -42,6 +42,7 @@
         title: ''
       }
     },
+    props: ["departmentprop", "deptform"],
     computed: {
       ...mapState('departments', {
         department: 'department',
@@ -69,7 +70,7 @@
       },
     },
     created() {
-      Store.dispatch('departments/getDepartmentById', this.$route.params.id)
+      Store.dispatch('departments/getDepartmentById', this.departmentprop.id)
     },
     mounted() {
       if (this.$route.params.id) {

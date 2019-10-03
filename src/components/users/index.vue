@@ -14,7 +14,7 @@
 </template>
 <script>
 /* globals Store */
-import Table from "@/components/Table.vue";
+import Table from "@/basecomponents/Table.vue";
 import { mapState } from "vuex";
 import { debounce } from "lodash";
 export default {

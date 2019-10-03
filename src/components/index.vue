@@ -44,9 +44,9 @@
   </v-container>
 </template>
 <script>
-  import Bar from "../components/chart/Bar";
-  import Doughnut from "../components/chart/Doughnut";
-  import LineChart from "../components/chart/LineChart";
+  import Bar from "../basecomponents/chart/Bar";
+  import Doughnut from "../basecomponents/chart/Doughnut";
+  import LineChart from "../basecomponents/chart/LineChart";
   export default {
     name: "Dashboard",
     data() {

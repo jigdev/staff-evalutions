@@ -67,9 +67,9 @@
 </template>
 <script>
 /* globals Store */
-import Table from "@/components/Table.vue";
-import SearchPanel from "@/components/SearchPanel.vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import Table from "@/basecomponents/Table.vue";
+import SearchPanel from "@/basecomponents/SearchPanel.vue";
+import ConfirmDialog from "@/basecomponents/ConfirmDialog.vue";
 import { mapState } from "vuex";
 import { debounce } from "lodash";
 

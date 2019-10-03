@@ -1,29 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ErrorPage from '@/components/404'
-
-import Dashboard from '@/pages/Dashboard'
-import OrderList from '@/pages/OrderList'
-import OrderForm from '@/pages/OrderForm'
-import About from '@/pages/About'
-import CustomerList from '@/pages/CustomerList'
-import CustomerForm from '@/pages/CustomerForm'
-import EvalutionForm from '@/pages/EvalutionForm'
-import Products from '@/pages/ProductList'
-import ProductForm from '@/pages/ProductForm'
-import SelfEvalutions from '@/pages/SelfEvalutions'
-
-import Departments from '@/pages/Departments'
-import DepartmentForm from '@/pages/DepartmentForm'
-
-import Users from '@/pages/Users'
-
-import Login from '@/components/Login'
-import ChangePassword from '@/components/ChangePassword'
+import ErrorPage from '@/basecomponents/404'
+import Dashboard from '../components/'
+import OrderList from '../components/orders/'
+import About from '../components/about/'
+import CustomerList from '../components/customer/'
+import Products from '../components/product/'
+import SelfEvalutions from '../components/evalutions/'
+import Departments from '../components/department/'
+import Users from '../components/users/'
+import Login from '@/basecomponents/Login'
+import ChangePassword from '@/basecomponents/ChangePassword'
+import auth from '@/utils/auth'
 
 Vue.use(Router)
-
-import auth from '@/utils/auth'
 
 function requireAuth (to, from, next) {
   if (!auth.loggedIn()) {
@@ -47,20 +37,10 @@ export default new Router({
     { path: '/dashboard', component: Dashboard, name: 'Dashboard', beforeEnter: requireAuth },
     { path: '/about', component: About, name: 'About', beforeEnter: requireAuth },
     { path: '/orders', component: OrderList, name: 'Orders', beforeEnter: requireAuth },
-    { path: '/neworder', component: OrderForm, name: 'NewOrder', beforeEnter: requireAuth },
-    { path: '/order/:id', component: OrderForm, name: 'Order', beforeEnter: requireAuth },
     { path: '/customers', component: CustomerList, name: 'Customers', beforeEnter: requireAuth },
-    { path: '/newcustomer', component: CustomerForm, name: 'NewCustomer', beforeEnter: requireAuth },
-    { path: '/customer/:id', component: CustomerForm, name: 'Customer', beforeEnter: requireAuth },
-    { path: '/product/:id', component: ProductForm, name: 'Product', beforeEnter: requireAuth },
     { path: '/products', component: Products, name: 'Products', beforeEnter: requireAuth },
-    { path: '/newproduct', component: ProductForm, name: 'NewProduct', beforeEnter: requireAuth },
     { path: '/evalutions', component: SelfEvalutions, name: 'Evalutions', beforeEnter: requireAuth },
-    { path: '/newEvalution', component: EvalutionForm, name: 'NewEvalution', beforeEnter: requireAuth },
-    { path: '/evalution/:id', component: EvalutionForm, name: 'Evalution', beforeEnter: requireAuth },
     { path: '/departments', component: Departments, name: 'Departments', beforeEnter: requireAuth },
-    { path: '/newDepartment', component: DepartmentForm, name: 'NewDepartment', beforeEnter: requireAuth },
-    { path: '/department/:id', component: DepartmentForm, name: 'Department', beforeEnter: requireAuth },
     { path: '/users', component: Users, name: 'Users', beforeEnter: requireAuth },
     { path: '/login', component: Login, name: 'Login' },
     { path: '/changePassword', component: ChangePassword, name: 'ChangePassword' },

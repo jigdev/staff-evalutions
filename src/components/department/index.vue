@@ -1,9 +1,10 @@
 <template>
   <v-container fluid>
-    <v-flex xs12>
+      <DepartmentForm :departmentprop="departmentprop" :depform="deptform" v-if="deptform"></DepartmentForm>
+    <v-flex xs12 v-if="!deptform">
       <v-card>
              <v-card-title>
-            <span class="title">Customers {{pagination? "("+pagination.totalItems+")": ""}}
+            <span class="title">Departments {{pagination? "("+pagination.totalItems+")": ""}}
               <v-text-field append-icon="search" label="Quick Search" single-line hide-details v-model="quickSearch"></v-text-field>
             </span>
             <v-spacer></v-spacer>
@@ -21,39 +22,12 @@
             </v-btn>
           </v-card-title>
         <Table v-if="loading===false" :headers="headers" :items="items"  :pagination="pagination" @edit="edit" @remove="remove"></Table>
-
       </v-card>
     </v-flex>
- <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchCustomers">
+ <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="searchDepartments">
  <v-layout row>
           <v-flex xs11 offset-xs1>
-            <v-text-field name="input-1-3" label="Frist Name" light v-model="searchVm.contains.firstName"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs11 offset-xs1>
-            <v-text-field name="input-1-3" label="Last Name" light v-model="searchVm.contains.lastName"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs11 offset-xs1>
-            <v-subheader class="text-sm-central" light>Reward range between Reward 1 and Reward 2 </v-subheader>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs8 offset-xs1>
-            <v-slider label="Reward 1" light v-bind:max="50" v-model="searchVm.between.rewards.former"></v-slider>
-          </v-flex>
-          <v-flex xs3>
-            <v-text-field type="number" light v-model="searchVm.between.rewards.former"></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs8 offset-xs1>
-            <v-slider label="Reward 2" light v-bind:max="100" v-model="searchVm.between.rewards.latter"></v-slider>
-          </v-flex>
-          <v-flex xs3>
-            <v-text-field type="number" light v-model="searchVm.between.rewards.latter"></v-text-field>
+            <v-text-field name="input-1-3" label="Department Name" light v-model="searchVm.contains.name"></v-text-field>
           </v-flex>
         </v-layout>
          </search-panel>
@@ -67,9 +41,10 @@
 </template>
 <script>
 /* globals Store */
-import Table from "@/components/Table.vue";
-import SearchPanel from "@/components/SearchPanel.vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import Table from "@/basecomponents/Table.vue";
+import SearchPanel from "@/basecomponents/SearchPanel.vue";
+import ConfirmDialog from "@/basecomponents/ConfirmDialog.vue";
+import DepartmentForm from "./DepartmentForm.vue"
 import { mapState } from "vuex";
 import { debounce } from "lodash";
 
@@ -77,40 +52,41 @@ export default {
   components: {
     Table,
     SearchPanel,
-    ConfirmDialog
+    ConfirmDialog,
+    DepartmentForm
   },
   data () {
     return {
       dialog: false,
-      dialogTitle: "Customer Delete Dialog",
-      dialogText: "Do you want to delete this customer?",
+      deptform: false,
+      dialogTitle: "Department delete Dialog",
+      dialogText: "Do you want to delete this Department?",
       rightDrawer: false,
       right: true,
       search: '',
       headers: [
         {
-          text: 'First Name',
+          text: 'Department Name',
           left: true,
-          value: 'firstName'
+          value: 'name'
         },
-        { text: 'Last Name', value: 'lastName' },
-        { text: 'Email', value: 'email' },
-        { text: 'Mobile', value: 'mobile' },
-        { text: 'Reward', value: 'rewards' },
-        { text: 'Previous Order(s)', value: 'orderAmount' },
-        { text: 'Membership', value: 'membership' },
+         {
+          text: 'Created Date',
+          left: true,
+          value: 'created_date'
+        }
       ],
       // items: [],
       searchVm: {
         contains: {
-          firstName: '',
-          lastName: ''
+          period: ''
         },
         between: {
           rewards: { former: 0, latter: 0 }
         }
       },
-      customerId: "",
+      departmentId: "",
+      departmentprop: "",
       query: "",
       snackbarStatus: false,
       timeout: 2000,
@@ -123,20 +99,21 @@ export default {
       window.print()
     },
     edit (item) {
-      this.$router.push({ name: 'Customer', params: { id: item.id } })
+      this.department = Object.assign({}, item);
+      this.deptform = true;
     },
     add () {
-      this.$router.push('NewCustomer')
+      this.$router.push('NewDepartment')
     },
     remove (item) {
-      this.orderId = item.id;
+      this.departmentId = item.id;
       this.dialog = true;
     },
     onConfirm () {
       Store.dispatch(
-        "customers/deleteCustomer", this.orderId).then(() => {
-        Store.dispatch("customers/searchCustomers", this.query, this.pagination);
-        Store.dispatch("customers/closeSnackBar", 2000);
+        "departments/deleteDepartment", this.departmentId).then(() => {
+        Store.dispatch("departments/searchDepartments", this.query, this.pagination);
+        Store.dispatch("departments/closeSnackBar", 2000);
       });
       this.dialog = false;
     },
@@ -144,17 +121,17 @@ export default {
       this.orderId = "";
       this.dialog = false;
     },
-    searchCustomers () {
+    searchDepartments () {
       this.rightDrawer = !this.rightDrawer;
       this.appUtil.buildSearchFilters(this.searchVm);
       this.query = this.appUtil.buildJsonServerQuery(this.searchVm);
       this.quickSearch = "";
-      Store.dispatch("customers/searchCustomers", this.query, this.pagination);
+      Store.dispatch("departments/searchDepartments", this.query, this.pagination);
     },
     clearSearchFilters () {
       this.rightDrawer = !this.rightDrawer
       this.appUtil.clearSearchFilters(this.searchVm)
-      this.api.getData('customers/').then((res) => {
+      this.api.getData('departments/').then((res) => {
         this.items = res.data
         this.items.forEach((item) => {
           if (item.orders && item.orders.length) {
@@ -171,25 +148,25 @@ export default {
     },
     reloadData () {
       this.query = "";
-      Store.dispatch("customers/getAllCustomers");
+      Store.dispatch("departments/getAllDepartments");
     },
     cancelSearch () {
       this.rightDrawer = false;
     },
     closeSnackbar () {
-      Store.commit("customers/setSnackbar", { snackbar: false });
-      Store.commit("customers/setNotice", { notice: "" });
+      Store.commit("departments/setSnackbar", { snackbar: false });
+      Store.commit("departments/setNotice", { notice: "" });
     },
-    quickSearchCustomers: debounce(function () {
+    quickSearchDepartments: debounce(function () {
       console.log(this.quickSearchFilter)
-      this.quickSearchFilter && Store.dispatch("customers/quickSearch",
+      this.quickSearchFilter && Store.dispatch("Departments/quickSearch",
        { headers: this.headers,
          qsFilter: this.quickSearchFilter.toLowerCase(),
          pagination: this.pagination });
     }, 300),
   },
   computed: {
-    ...mapState("customers", {
+    ...mapState("departments", {
       items: "items",
       pagination: "pagination",
       loading: "loading",
@@ -203,15 +180,15 @@ export default {
       },
       set: function ( val ) {
         this.quickSearchFilter = val;
-        this.quickSearchFilter && this.quickSearchCustomers();
+        this.quickSearchFilter && this.quickSearchDepartments();
       }
     }
   },
   created () {
-    Store.dispatch("customers/getAllCustomers")
+    Store.dispatch("departments/getAllDepartments")
   },
   mounted () {
-    // this.getCustomers()
+
   }
 }
 </script>

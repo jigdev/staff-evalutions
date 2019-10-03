@@ -128,7 +128,7 @@
 </template>
 <script>
 /* global Store */
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import ConfirmDialog from "@/basecomponents/ConfirmDialog.vue";
 import {Product} from '../models'
 import { mapState, dispatch } from 'vuex'
   export default {
